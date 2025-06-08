@@ -1,6 +1,7 @@
 # docker-php
 
-> Docker & php 5 & php 7 & php 8 & Maria DB & phpmyadmin
+<!-- > Docker & php 5 & php 7 & php 8 & Maria DB & phpmyadmin -->
+> Docker & php 8 & Maria DB & phpmyadmin 
 
 ## Before installation
 

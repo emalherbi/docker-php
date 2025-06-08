@@ -1,46 +1,79 @@
-php8:
-  container_name: php8
-  build: ./php8/
-  links:
-    - db
-  ports:
-    - "8100:80"
-    - "8443:443"
-  volumes:
-    - ../www:/var/www/html
-php7:
-  container_name: php7
-  build: ./php7/
-  links:
-    - db
-  ports:
-    - "7100:80"
-    - "7443:443"
-  volumes:
-    - ../www:/var/www/html
-php5:
-  container_name: php5
-  build: ./php5/
-  links:
-    - db
-  ports:
-    - "5100:80"
-    - "5443:443"
-  volumes:
-    - ../www:/var/www/html
-db:
-  container_name: db
-  image: mariadb
-  ports:
-    - "9306:3306"
-  environment:
-    MYSQL_ROOT_PASSWORD: root
-    MYSQL_USER: root
-    MYSQL_PASSWORD: root
-phpmyadmin:
-  container_name: phpmyadmin
-  image: phpmyadmin/phpmyadmin
-  links:
-    - db
-  ports:
-    - "9100:80"
+version: "3.8"
+
+services:
+  php8:
+    container_name: php8
+    build: ./php8/
+    depends_on:
+      - db
+    ports:
+      - "8100:80"
+      - "8443:443"
+    volumes:
+      - ../www:/var/www/html
+    restart: unless-stopped
+    networks:
+      - appnet
+
+  # php7:
+  #   container_name: php7
+  #   build: ./php7/
+  #   depends_on:
+  #     - db
+  #   ports:
+  #     - "7100:80"
+  #     - "7443:443"
+  #   volumes:
+  #     - ../www:/var/www/html
+  #   restart: unless-stopped
+  #   networks:
+  #     - appnet
+
+  # php5:
+  #   container_name: php5
+  #   build: ./php5/
+  #   depends_on:
+  #     - db
+  #   ports:
+  #     - "5100:80"
+  #     - "5443:443"
+  #   volumes:
+  #     - ../www:/var/www/html
+  #   restart: unless-stopped
+  #   networks:
+  #     - appnet
+
+  db:
+    container_name: db
+    image: mariadb:10.5
+    ports:
+      - "9306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    volumes:
+      - dbdata:/var/lib/mysql
+    restart: unless-stopped
+    networks:
+      - appnet
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - db
+    ports:
+      - "9100:80"
+    environment:
+      PMA_HOST: db
+    restart: unless-stopped
+    networks:
+      - appnet
+
+volumes:
+  dbdata:
+
+networks:
+  appnet:
+    driver: bridge
