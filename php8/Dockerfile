@@ -28,6 +28,8 @@ RUN echo "memory_limit = 2G" >> /usr/local/etc/php/php.ini
 RUN echo "upload_max_filesize = 2G" >> /usr/local/etc/php/php.ini
 RUN echo "post_max_size = 2G" >> /usr/local/etc/php/php.ini
 
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 RUN a2enmod rewrite
 
 RUN rm -rf /var/lib/apt/lists/*

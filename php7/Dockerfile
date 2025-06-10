@@ -19,9 +19,9 @@ RUN docker-php-ext-install mysqli \
   && docker-php-ext-install gd \
   && rm -rf /var/lib/apt/lists/*
 
-RUN pecl install sqlsrv pdo_sqlsrv
-RUN echo "extension=sqlsrv.so" >> /usr/local/etc/php/php.ini
-RUN echo "extension=pdo_sqlsrv.so" >> /usr/local/etc/php/php.ini
+# RUN pecl install sqlsrv pdo_sqlsrv
+# RUN echo "extension=sqlsrv.so" >> /usr/local/etc/php/php.ini
+# RUN echo "extension=pdo_sqlsrv.so" >> /usr/local/etc/php/php.ini
 
 RUN echo "date.timezone = America/Sao_Paulo" >> /usr/local/etc/php/php.ini
 RUN echo "memory_limit = 2G" >> /usr/local/etc/php/php.ini
