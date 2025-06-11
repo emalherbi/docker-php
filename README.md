@@ -1,8 +1,9 @@
 # docker-php
 
-- > Docker & php & Maria DB & phpmyadmin 
-- > php 8 -> mysqli& pdo_mysql & sqlsrv & pdo_sqlsrv
-- > php 7 -> mysqli& pdo_mysql  
+> Docker & php & Maria DB & phpmyadmin 
+
+- php 8 -> mysqli& pdo_mysql & sqlsrv & pdo_sqlsrv
+- php 7 -> mysqli& pdo_mysql  
 
 ## Before installation
 
