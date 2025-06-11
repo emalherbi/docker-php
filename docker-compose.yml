@@ -15,19 +15,19 @@ services:
     networks:
       - appnet
 
-  # php7:
-  #   container_name: php7
-  #   build: ./php7/
-  #   depends_on:
-  #     - db
-  #   ports:
-  #     - "7100:80"
-  #     - "7443:443"
-  #   volumes:
-  #     - ../www:/var/www/html
-  #   restart: unless-stopped
-  #   networks:
-  #     - appnet
+  php7:
+    container_name: php7
+    build: ./php7/
+    depends_on:
+      - db
+    ports:
+      - "7100:80"
+      - "7443:443"
+    volumes:
+      - ../www:/var/www/html
+    restart: unless-stopped
+    networks:
+      - appnet
 
   # php5:
   #   container_name: php5
