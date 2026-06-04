@@ -1,16 +1,15 @@
-version: "3.8"
-
 services:
   php8:
     container_name: php8
     build: ./php8/
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "8100:80"
       - "8443:443"
     volumes:
-      - ../www:/var/www/html
+      - ../:/var/www/html
     restart: unless-stopped
     networks:
       - appnet
@@ -19,54 +18,51 @@ services:
     container_name: php7
     build: ./php7/
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "7100:80"
       - "7443:443"
     volumes:
-      - ../www:/var/www/html
+      - ../:/var/www/html
     restart: unless-stopped
     networks:
       - appnet
 
-  # php5:
-  #   container_name: php5
-  #   build: ./php5/
-  #   depends_on:
-  #     - db
-  #   ports:
-  #     - "5100:80"
-  #     - "5443:443"
-  #   volumes:
-  #     - ../www:/var/www/html
-  #   restart: unless-stopped
-  #   networks:
-  #     - appnet
-
   db:
     container_name: db
-    image: mariadb:10.5
+    image: mariadb:10.11
     ports:
       - "9306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: app_db
+      MYSQL_USER: app
+      MYSQL_PASSWORD: app
     volumes:
       - dbdata:/var/lib/mysql
     restart: unless-stopped
     networks:
       - appnet
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   phpmyadmin:
     container_name: phpmyadmin
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin:5.2
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "9100:80"
     environment:
       PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
     restart: unless-stopped
     networks:
       - appnet
