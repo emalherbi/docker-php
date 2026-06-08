@@ -119,6 +119,30 @@ docker exec php8 php -v
 docker exec -it db mariadb -uroot -proot
 ```
 
+### Executar comandos PHP e Composer
+
+PHP e Composer só existem dentro dos containers — não são instalados no sistema operacional local.
+
+**Comando avulso (direto do terminal):**
+
+```bash
+docker exec -w /var/www/html php8 php -v
+docker exec -w /var/www/html php8 composer install
+docker exec -w /var/www/html php8 composer update
+```
+
+O `-w /var/www/html` define o diretório de trabalho dentro do container.
+
+**Vários comandos seguidos (entrar no container):**
+
+```bash
+docker exec -it php8 bash
+# agora dentro do container:
+cd /var/www/html
+composer update
+php artisan migrate
+```
+
 ## URLs de acesso
 
 | Serviço    | URL                   |
