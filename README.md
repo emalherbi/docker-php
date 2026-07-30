@@ -133,14 +133,39 @@ docker exec -w /var/www/html php8 composer update
 
 O `-w /var/www/html` define o diretório de trabalho dentro do container.
 
+Exemplo de comando dentro de uma pasta específica do projeto:
+
+```bash
+docker exec -w /var/www/html/work/minhaPasta/ php8 composer install
+```
+
 **Vários comandos seguidos (entrar no container):**
 
 ```bash
 docker exec -it php8 bash
+
 # agora dentro do container:
 cd /var/www/html
 composer update
 php artisan migrate
+```
+
+### Rodar o PHP-CS-Fixer (só no php8)
+
+O `php8` tem o [PHP-CS-Fixer](https://cs.symfony.com/) instalado globalmente. Rode com `-w` apontando para a pasta do projeto (relativa a `/var/www/html`):
+
+```bash
+# Ver o que mudaria (dry-run), sem aplicar
+docker exec -w /var/www/html/work/minhaPasta php8 php-cs-fixer fix --dry-run --diff caminho/arquivo.php
+
+# Aplicar em um arquivo
+docker exec -w /var/www/html/work/minhaPasta php8 php-cs-fixer fix caminho/arquivo.php
+
+# Aplicar em uma pasta inteira
+docker exec -w /var/www/html/work/minhaPasta php8 php-cs-fixer fix caminho/pasta/
+
+# Aplicar no projeto inteiro
+docker exec -w /var/www/html/work/minhaPasta php8 php-cs-fixer fix
 ```
 
 ## URLs de acesso
