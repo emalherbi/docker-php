@@ -47,4 +47,9 @@ RUN a2enmod rewrite
 
 ADD 000-default.conf /etc/apache2/sites-available/
 
+COPY start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
+
 EXPOSE 80 443
+
+CMD ["start.sh"]
